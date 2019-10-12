@@ -7,12 +7,18 @@
 ### prot 31001 start failed，please check 先检查 cmdb 服务状态
 
 ![](../assets/cmdb-31001.png)
-./bkcec status cmdb 若服务装状态都是 RUNNING 则 dig zk.service.consul 查看能否解析（非单机部署） dig 服务名.service.consul 解析异常处理方法：
 
- 1.1、检查内部域名解析，运行 dig 域名 @127.0.0.1 看是否能解析，如果不能解析，说明 consul 有问题 
- 1.2、检查 consul 服务是否正常
- 1.3、检查三台服务器 resolv.conf  首行是否有配置 nameserver 127.0.0.1，如无，请添加
- 1.4、重启或重装 consul 服务
+`./bkcec status cmdb`若服务装状态都是 RUNNING 则 
+```bash
+dig zk.service.consul 查看能否解析（非单机部署） dig 服务名.service.consul 解析异常处理方法：
+```
+
+ 1.检查内部域名解析，运行 dig 域名 @127.0.0.1 看是否能解析，如果不能解析，说明 consul 有问题 
+ 
+ 2.检查 consul 服务是否正常
+ 
+ 3.检查三台服务器 resolv.conf  首行是否有配置 nameserver 127.0.0.1，如无，请添加
+ 4.重启或重装 consul 服务
  
 ```bash
 ./bkcec stop consul  #(或在consul服务所在的三台主机，ps -ef |grep consul | awk '{print $2}'  |xargs kill -9)
@@ -24,12 +30,19 @@
 
 ### 若安装 consul 报错
  
+ 
 2.1 检查/data/src/service/consul/是否有这两个文件夹 bin ，conf；bin 文件夹下是否有文件
+
  2.2 备份一下 src 下的.pip/pip.conf 文件，然后重新解压一下 bkce_src 安装包，继续检查是否有文件，如果还没有
+ 
  2.3 解压时直接用 tar xf 包名，不要加-C，还没有文件去官网下载新包重新解压
+ 
  2.4 对比包的 md5 是否和官网一致
+ 
  2.5 检查防火墙端口是否有开（8300，8301，8302）
+ 
  2.6 查看日志，登录所在机器的路径：/data/bkce/logs
+ 
 
 ### cmdb-adminserver 服务状态 failed 
  3.1.检查依赖服务是否正常 redis mongodb nginx gse zk 
